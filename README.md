@@ -1,8 +1,8 @@
 # Custom CSS and JS
 
 ### **SPECIAL NOTE: If Visual Studio Code complains about that it is corrupted, simply click “Don't show again” or install [Fix VSCode Checksums Next](https://marketplace.visualstudio.com/items?itemName=RimuruChan.vscode-fix-checksums-next).**
-### **NOTE: Every time after Visual Studio Code is updated, please re-enable Custom CSS.**
-### **NOTE: Every time you change the configuration, please re-enable Custom CSS.**
+### **NOTE: This fork automatically reapplies Custom CSS and JS after a VS Code update.**
+### **NOTE: Configuration changes are automatically reapplied when `vscode_custom_css.autoEnable` is enabled.**
 ### **Starting from extension version 6.0, to be compatible with VSCode 1.58, the CSS/JS files being applied will be inlined into VSCode's workbench.**
 
 Custom CSS to your Visual Studio Code. Based on [robertohuertasm](https://github.com/robertohuertasm)’s [vscode-icons](https://github.com/robertohuertasm/vscode-icons).
@@ -31,9 +31,7 @@ Custom CSS to your Visual Studio Code. Based on [robertohuertasm](https://github
 
    2. **MacOS and Linux**: See instructions below.
 
-4. Activate command "Reload Custom CSS and JS".
-
-5. Restart.
+4. Activate command "Enable Custom CSS and JS" once. The fork will automatically reapply the patch when VS Code replaces its installation files or when the imported CSS/JS configuration changes.
 
 
 ## Extension commands
@@ -43,6 +41,8 @@ As you know to access the command palette and introduce commands you can use ***
 - ***Enable Custom CSS and JS***: It enables custom CSS and JS URLs listed in “`vscode_custom_css.imports`”, an array containing URLs of your custom CSS and JS files, in your user settings.
 - ***Disable Custom CSS and JS***: It will disable custom CSS.
 - ***Reload Custom CSS and JS***: Disable and then re-enable it.
+
+Automatic repair compares a hash of the rendered imports and the clean VS Code workbench. It writes the patch and reloads the window only when either one changes. Set `vscode_custom_css.autoEnable` to `false` to disable automatic repair. The `Disable Custom CSS and JS` command remains a manual opt-out for the current VS Code installation; an upgrade changes the clean workbench hash and enables repair again.
 
 ## Windows users
 
@@ -95,13 +95,13 @@ It also supports env variables like `${env:ENV_VAR_NAME}` and you can specify a 
 This extension modifies some Visual Studio Code files so use it at your own risk.
 Currently, icons are not supported by the extension functionality that Visual Studio Code provides so this extension solves this issue by injecting code into:
 
-- `electron-browser/index.html`.
+- `electron-browser/workbench/workbench.html`.
 
 The extension will keep a copy of the original file in case something goes wrong. That's what the disable command will do for you.
 
-As this extension modifies Visual Studio Code files, it will get disabled with every Visual Studio Code update. You will have to enable icons again via the command palette.
+The fork detects when a VS Code update replaces the modified workbench and reapplies the configured imports automatically. The first repair reloads the window once.
 
-Take into account that this extension is still in beta, so you may find some bugs while playing with it. Please, report them to [the issues section of the Github's repo](https://github.com/be5invis/vscode-custom-css/issues).
+Take into account that this extension is still in beta, so you may find some bugs while playing with it. Please, report them to [the issues section of the Github's repo](https://github.com/yJader/vscode-custom-css/issues).
 
 **Please, leave a review if you can, so the Visual Studio Code Team can know that this is a very demanded feature and, maybe, they can then provide a proper way to extend the IDE regarding icons and customizations soon enough. ;D**
 
